@@ -1,0 +1,18 @@
+﻿@page
+@model MyDearFriend.Pages.AskModel
+@{
+}
+<h1>Ask Dear Friend</h1>
+@if(Model.hasData){
+    <p>@Model.message</p>
+}
+<div class="container">
+
+    <form method="POST">
+        <label for="message"> Message</label><br />
+
+        <textarea id="message" name="message" style="height:200px"></textarea><br />
+
+        <input type="submit" value="Submit" />
+    </form>
+</div>
