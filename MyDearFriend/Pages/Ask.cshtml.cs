@@ -8,6 +8,7 @@ namespace MyDearFriend.Pages
 
         public bool hasData = false;
         public string message = "";
+
         public void OnGet()
         {
 

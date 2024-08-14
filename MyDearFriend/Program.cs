@@ -15,6 +15,8 @@ Console.WriteLine(doc.ToString());
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<MongoDbService>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
