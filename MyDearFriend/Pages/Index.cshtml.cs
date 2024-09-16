@@ -1,22 +1,56 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MyDearFriend;
+using MyDearFriend.Pages;
 
-namespace MyDearFriend.Pages
+
+public class IndexModel
 {
-    public class IndexModel : PageModel
+    private readonly ILogger<IndexModel> _logger;
+
+   
+
+    private readonly Database _database;
+
+    public IndexModel()
     {
-        private readonly ILogger<IndexModel> _logger;
+        var dbClient = new MongoClient("mongodb+srv://richardrangs:VXj0Z32cjBrKsFZl@cluster0.r5ip8.mongodb.net/");
+        IMongoDatabase db = dbClient.GetDatabase("DearFriend");
+        var emp = db.GetCollection<MessageModel>("Message");
 
-        public IndexModel(ILogger<IndexModel> logger)
+
+
+        //var message = new MessageModel { message = "Hello guyssss", Timestamp = DateTime.Now };
+        //emp.InsertOneAsync(message);
+
+        var results = emp.FindAsync(_ => true);
+        
+
+        foreach (var result in results.ToList())
         {
-            _logger = logger;
+            Console.WriteLine($"{result.Id}: {result.message}");
         }
+    }
 
-        public void OnGet()
-        {
+    //public IndexModel(Database database)
+    //{
+    //    _database = database;
+    //}
 
-        }
+    public List<BsonDocument> Documents { get; private set; } = new List<BsonDocument>();
+
+    public async Task OnGetAsync()
+    {
+        Documents = await _database.GetAllDocumentsAsync();
+    }
+
+    public void OnGet()
+    {
+
+    }
 
         
-    }
 }
+
